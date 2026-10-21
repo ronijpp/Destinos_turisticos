@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Destinos Vacacionales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <!-- Barra de búsqueda -->
+  <ion-searchbar 
+    [(ngModel)]="searchQuery" 
+    (ionInput)="onSearchChange($event)" 
+    placeholder="Buscar destino (ej. playa, montaña)">
+  </ion-searchbar>
+
+  <!-- Resultados de la búsqueda -->
+  @if (searchResults.length > 0) {
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Resultados de búsqueda</ion-label>
+      </ion-list-header>
+      
+      @for (place of searchResults; track place.xid) {
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="place.image" alt="Imagen lugar">
+          </ion-thumbnail>
+          
+          <ion-label>
+            <h2>{{ place.name }}</h2>
+            <p>{{ place.country }}</p>
+          </ion-label>
+
+          <ion-button fill="clear" slot="end" (click)="addToWishlist(place, 0)">
+            <ion-icon name="add-circle-outline" slot="icon-only" color="primary"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <!-- Lista de destinos guardados -->
+  @if (savedDestinations.length > 0) {
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Mis Destinos Deseados</ion-label>
+      </ion-list-header>
+
+      @for (dest of savedDestinations; track dest.xid) {
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="dest.image" alt="Imagen destino">
+          </ion-thumbnail>
+          
+          <ion-label>
+            <h2>{{ dest.name }}</h2>
+            <p>{{ dest.country }}</p>
+          </ion-label>
+          
+          <!-- Precio -->
+          <ion-text slot="end" color="dark" class="ion-margin-end">
+            <strong>{{ dest.price | currency:'USD':'symbol':'1.2-2' }}</strong>
+          </ion-text>
+
+          <!-- Botones -->
+          <ion-button fill="clear" slot="end" (click)="openPriceModal(dest)">
+            <ion-icon name="cash-outline" slot="icon-only" color="success"></ion-icon>
+          </ion-button>
+          
+          <ion-button fill="clear" slot="end" (click)="deleteDestination(dest)">
+            <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  } @else {
+    <!-- Mensaje si está vacío -->
+    <div class="ion-text-center ion-padding" style="color: gray;">
+      <p>No tienes destinos guardados aún. ¡Busca uno y agrégalo!</p>
+    </div>
+  }
+
+</ion-content>

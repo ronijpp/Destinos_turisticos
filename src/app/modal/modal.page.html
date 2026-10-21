@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    
+    <!-- Botón CANCELAR a la izquierda -->
+    <ion-buttons slot="start">
+      <ion-button style="text-transform: uppercase; font-size: 14px; font-weight: 500;" (click)="cancelar()">
+        CANCELAR
+      </ion-button>
+    </ion-buttons>
+    
+    <!-- Título Centrado y con el tamaño exacto -->
+    <ion-title class="ion-text-center" style="font-size: 18px; font-weight: 500;">
+      Valor vuelo ida y vuelta
+    </ion-title>
+    
+    <!-- Botón CONFIRMAR a la derecha -->
+    <ion-buttons slot="end">
+      <ion-button color="primary" style="text-transform: uppercase; font-size: 14px; font-weight: 500;" (click)="confirmar()">
+        CONFIRMAR
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <!-- Lista sin líneas divisorias (lines="none") -->
+  <ion-list lines="none">
+    <ion-item>
+      <!-- Texto pequeño arriba del input (position="stacked") -->
+      <ion-label position="stacked" style="font-size: 12px; margin-bottom: 5px;">
+        Valor del vuelo ida y vuelta en USD
+      </ion-label>
+      
+      <!-- Input grande debajo del texto -->
+      <ion-input 
+        
+        type="number" 
+        placeholder="400" 
+        [(ngModel)]="newPrise"
+        style="font-size: 18px;">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

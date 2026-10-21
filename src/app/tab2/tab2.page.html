@@ -1,17 +1,82 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Destinos Vacacionales</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <ion-searchbar 
+    [(ngModel)]="searchQuery" 
+    (ionInput)="onSearchChange($event)" 
+    placeholder="Buscar destino (ej. playa)">
+  </ion-searchbar>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- Resultados de la Búsqueda -->
+  @if (searchResults.length > 0) {
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Resultados de búsqueda</ion-label>
+      </ion-list-header>
+      
+      @for (place of searchResults; track place.xid) {
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="place.image" alt="Imagen destino" 
+            (error)="dest.image = 'https://ionicframework.com/docs/img/demos/thumbnail.svg'">
+          </ion-thumbnail>
+          
+          <ion-label>
+            <h2>{{ place.name }}</h2>
+            <p>{{ place.country }}</p>
+          </ion-label>
+
+          <ion-button fill="clear" slot="end" (click)="addToWishlist(place)">
+            <ion-icon name="add-circle-outline" slot="icon-only" color="primary"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <!-- Mensaje de Vacío (El que sale en tu captura) -->
+  @if (savedDestinations.length === 0 && searchResults.length === 0) {
+    <div class="ion-text-center ion-padding" style="color: gray; margin-top: 20vh;">
+      <p>No tienes destinos guardados aún. ¡Busca uno y agrégalo!</p>
+    </div>
+  }
+
+  <!-- Lista de Destinos Guardados -->
+  @if (savedDestinations.length > 0) {
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Mis Destinos Deseados</ion-label>
+      </ion-list-header>
+
+      @for (dest of savedDestinations; track dest.xid) {
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="dest.image" alt="Imagen destino">
+          </ion-thumbnail>
+          
+          <ion-label>
+            <h2>{{ dest.name }}</h2>
+            <p>{{ dest.country }}</p>
+          </ion-label>
+          
+          <ion-text slot="end" color="dark" class="ion-margin-end">
+            <strong>{{ dest.price | currency:'USD':'symbol':'1.2-2' }}</strong>
+          </ion-text>
+
+          <ion-button fill="clear" slot="end" (click)="openPriceModal(dest)">
+            <ion-icon name="cash-outline" slot="icon-only" color="success"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" slot="end" (click)="deleteDestination(dest)">
+            <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+          </ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
 </ion-content>

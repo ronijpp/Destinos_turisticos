@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>destinos Vacacionales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-list lines="full">
+
+<ion-item *ngFor="let destino of destinos">
+        <ion-thumbnail slot="start">
+        <img [src]="destino.imagen" alt="Foto de {{destino.nombre}}">
+      </ion-thumbnail>
+
+      <!-- Nombre y País -->
+      <ion-label class="ion-text-wrap">
+        <h2>{{ destino.nombre }}</h2>
+        <p>{{ destino.pais }}</p>
+      </ion-label>
+
+      <!-- Botón de Precio -->
+      <ion-button fill="clear" color="dark" (click)="abrirModalPrecio(destino)">
+        <ion-icon slot="start" name="cash-outline"></ion-icon>
+        <span style="font-size: 0.8rem; margin-left: 4px;">
+          {{ destino.precio | currency:'USD' }}
+        </span>
+      </ion-button>
+
+      <!-- Botón de Cámara -->
+      <ion-button fill="clear" color="dark" (click)="tomarFoto(destino)">
+        <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+      </ion-button>
+
+      <!-- Botón de Basura -->
+      <ion-button fill="clear" color="dark" (click)="eliminarDestino(destino)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+</ion-item>
+
+</ion-list>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">destinos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content>

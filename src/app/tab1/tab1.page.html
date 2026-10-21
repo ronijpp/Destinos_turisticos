@@ -1,17 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Destinos Vacacionales</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <ion-searchbar placeholder="Buscar destino (ej. playa)"></ion-searchbar>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-list>
+    @for (destino of destinos; track destino.nombre) {
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="destino.foto" alt="Imagen destino">
+        </ion-thumbnail>
+        
+        <ion-label>
+          <h2>{{ destino.nombre }}</h2>
+          <p>{{ destino.pais }}</p>
+        </ion-label>
+
+        <ion-text color="dark" class="ion-margin-end">
+          <strong>{{ destino.precio | currency:'USD':'symbol':'1.2-2' }}</strong>
+        </ion-text>
+
+        <!-- 4. Botón de la Cámara a la derecha -->
+        <ion-button fill="clear" slot="end" (click)="agregarADeseados(destino)">
+          <ion-icon name="add-circle-outline" slot="icon-only" color="primary"></ion-icon>
+        </ion-button>
+
+        <!-- 5. Botón de Eliminar a la derecha -->
+        <ion-button fill="clear" slot="end" (click)="cambiarFoto(destino)">
+          <ion-icon name="trash-outline" slot="icon-only" color="primary"></ion-icon>
+        </ion-button>
+      </ion-item>
+    }
+  </ion-list>
 </ion-content>
+
